@@ -1,0 +1,11 @@
+import sqrt 
+import sin
+import cos
+import tan
+
+a = 9.8
+v_xf = 26.8
+v_xi = 0
+
+t = v_xf / a
+c
