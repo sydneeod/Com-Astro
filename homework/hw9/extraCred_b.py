@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy
+from scipy.optimize import curve_fit
+from scipy.signal import savgol_filter
+
+def func(x,a,b,c,a2,b2,c2): # function we're plotting and fitting to                                                                                                     
+    return a*np.exp(-((x - b)**2) / (2*(c**2))) + a2*np.exp(-((x-b2)**2) / (2*(c2**2))) # from https://en.wikipedia.org/wiki/Gaussian_function                            
+    
+# data                                                                                                                                                                    
+data = np.loadtxt('hw10b.dat') # loading in the data from hw10a                                                                                                           
+data_x = data[:,0] # row 1 data into an array                                                                                                                             
+data_y =savgol_filter(data[:,1],51,3) # row 2 data into an array                                                                                                                             
+param = [.017,-50,-10,.02,50,10] # random parameter array with estimations                                                                                               
+
+popt,pcov = curve_fit(func,data_x,data_y,param) # curve fitting                                                                                                           
+a = popt[0]
+b = popt[1]
+c = popt[2]
+a2 = popt[3]
+b2 = popt[4]
+c2 = popt[5]
+
+#FWHM = c*np.sqrt(2*np.log(2)) for some reason, calculating the value this way does not work                                                                              
+FWHM = c*2.34582 # found using the wiki link above                                                                                                                        
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(data_x,data_y, label = 'data',color ="blue")
+ax.plot(data_x,func(data_x,popt[0],popt[1],popt[2],popt[3],popt[4],popt[5]),label = 'best fit',color ="red")
+#ax.plot(data_x,yhat,label = 'best fit', color = "red")
+
+ax.set_xlabel('Velocity (km/s)')
+ax.set_ylabel('Temperature Proportional to Intensity')
+plt.legend()
+fig.savefig('extraCred_b.png')

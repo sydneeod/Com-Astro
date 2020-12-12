@@ -1,0 +1,31 @@
+# np.trapz ##
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    o1 = 0.3 ## matter density of universe
+    o2 = 0.7 ## density of dark enerrgy
+    o3 = 0 ## density of radiation
+    c = 3*10**3 ## constant
+    return c/((o1*(1+x)**3 + o3*(1+x)**2 + o2)**(1/2))
+
+nump = np.empty(10, float)
+
+for x in range(0,10):
+    nump[x]=f(x)/(1+x)
+nump = np.trapz(nump)
+
+print(nump)
+# x = np.arange(1,10,1)
+# ##area = []
+
+# for i in range (0,10):
+#     x = [0,i]
+#     y = f/(1+i)
+#     area.append(np.trapz(y,x))
+
+# print(area)
+
+plt.plot([1,2,3,4,5,6,7,8,9,10],nump)
+plt.xlabel('z')
+plt.ylabel('DA')

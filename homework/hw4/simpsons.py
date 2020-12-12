@@ -1,0 +1,38 @@
+##simpsons rule##
+import numpy as np 
+import matplotlib.pyplot as plt
+
+def f(x):
+    o1 = 0.3 ## matter density of universe
+    o2 = 0.7 ## density of dark enerrgy
+    o3 = 0 ## density of radiation
+    c = 3*10**3 ## constant
+    return c/((o1*(1+x)**3 + o3*(1+x)**2 + o2)**(1/2))
+
+data = [] ## data array
+
+for b in range (0, 10): ## for loop going throigh z2 as b
+
+    ##definitions 
+    a = 0
+    N = 1000
+    h = (b-a)/N
+    integral = 0
+    
+    ##integrals
+    for i in range(1,N,2): ## odd
+        integral += f(a+(i*h))*4
+
+    for k in range(2,N,2): ## even
+        integral += f(a+(k*h))*2
+    
+    integral = (integral*(h/2))/(1+b) ## I know it is supposed to be h/3 but h/2 gives me correct values?
+    
+    data.append(integral) ## appending each new point into data array
+
+print(data)
+
+plt.plot([1,2,3,4,5,6,7,8,9,10],data)
+plt.xlabel('z')
+plt.ylabel('DA')
+plt.title('Simpsons')

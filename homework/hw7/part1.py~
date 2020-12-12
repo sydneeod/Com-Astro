@@ -1,0 +1,52 @@
+## I worked on this homework together with Joe Grimm and Raymond Banton
+
+import numpy as np
+
+A = np.array([[0,1,4,1],
+             [3,0,-1,-1],
+             [1,-4,0,5],
+             [2,-2,1,3]], float)
+v = np.array([-4,3,9,7], float)
+N = len(v)
+
+for i in range(1,N):
+    if A[i,i] == 0: # if an element on the diagonal = 0, piviot 
+        Acopy = np.copy(A) # copy the original arrays
+        vcopy = np.copy(v)
+        
+        if i == 0: # if the diagonal is 0, piviot 
+            A[0] = Acopy[N-1]
+            v[0] = vcopy[N-1]
+            
+            A[N-1] = Acopy[i]
+            v[N-1] = vcopy[i]
+        
+        else: 
+            A[i] = Acopy[i-1]
+            v[i] = vcopy[i-1]
+            
+            A[i-1] = Acopy[i]
+            v[i-1] = vcopy[i]
+
+print(A, "A")
+print(v, "v")
+
+for m in range(N):
+    div = A[m,m]
+    A[m,:] /= div
+    v[m] /= div
+    
+    for i in range(m+1,N):
+        mult = A[i,m]
+        A[i,:] -= mult*A[m,:]
+        v[i] -= mult*v[m]
+        
+x = np.empty(N,float)
+for m in range(N-1,-1,-1):
+    x[m] = v[m]
+    for i in range(m+1,N):
+        x[m] -= A[m,i]*x[i]
+        
+print(A)
+print(x, "solutions")
+    

@@ -1,0 +1,30 @@
+import numpy as np
+
+def Bv(T):
+    
+    h = 6.6261 * (10**(-27)) # planck's constant (cm^2 g s^-1) 
+    c = 3 * (10**10) # speed of light (cm s^-1)
+    k = 1.3807 * (10**(-16)) # boltzman's constant (cm^2 g s^-2 K^-1)
+    w = 870 * (10**(-4)) # wavelength (cm)
+    v = c/w # frequency (hertz, s^-1)
+    BvT = 1.25 * (10**(-12)) # observed intensity (cgs units)
+    x = (((2*h*(v**3))/(c**2)) / (np.exp((h*v)/(k*T))-1)) - BvT # root 
+    return x
+    
+tolerance = 1e-30 
+y = 0.0001
+n = 0.05
+
+while Bv(y) < tolerance: # run while the function is less than the tolerance
+    ycop = y  # make a copy
+    
+    while Bv(ycop) / Bv(y) > 0: # divide the copy by the orig and run while > 0
+        ycop += n # add to the copy a step size n
+        
+    mid = (ycop + y) / 2 # find the averaged midpoint between y and the copy 
+    y = mid # set y = to this midpoint
+    
+print(y, "is the answer to the great question... of life, the universe and everything.")
+
+# similar to a breakout room, Joe Grimm, Raymond Banton, and I worked together on this
+# this code runs but there is a runtime error code. This error goes away if y = 1, however when y = 1 the answer is less precice and is around 41.999    

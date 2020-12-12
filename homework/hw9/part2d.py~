@@ -1,0 +1,7 @@
+
+
+
+
+
+print("FWHM:",FWHM)
+print("Area under curve:", area)

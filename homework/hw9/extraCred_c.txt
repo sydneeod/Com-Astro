@@ -1,0 +1,3 @@
+The double Gauss curves do fit better. The smoothed data points fit the curve better as well, but at the cost of losing information.
+However, the information lost is considered noise so maybe it is not that important. When you smooth twice the graph looks better and follows a more uniform curve. 
+As you continue to smooth you loose more and more data but your curve looks closer to a continious function. The double Gauss does look better and works well enough.

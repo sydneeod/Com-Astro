@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy
+from scipy.optimize import curve_fit
+
+def func(x,a,b,c): # function we're plotting and fitting to 
+    return a*np.exp(-((x - b)**2) / (2*(c**2))) 
+
+# data
+data = np.loadtxt('hw10a.dat') # loading in the data from hw10a
+data_x = data[:,0] # row 1 data into an array
+data_y = data[:,1] # row 2 data into an array
+
+param = [0.1,100,200] # random parameter array with estimations
+
+popt,pcov = curve_fit(func,data_x,data_y,param) # curve fitting 
+a = popt[0] 
+b = popt[1]
+c = popt[2]
+
+FWHM = c*np.sqrt(2*np.log(2)) # line used to curve fit 
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(data_x,data_y, label = 'data')
+ax.plot(data_x,func(data_x,popt[0],popt[1],popt[2]),label = 'best fit',color ="red")
+
+ax.set_xlabel('Velocity (km/s)')
+ax.set_ylabel('Temperature Proportional to Intensity')
+plt.legend()
+fig.savefig('linfit.png')
